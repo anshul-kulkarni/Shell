@@ -114,40 +114,38 @@ int main () {
 		handle_input ();
 		if (strstr (cmd, "PATH") != NULL) {
 			set_path ();
-			continue;
 		}	
-		if (strcmp (cmd, "cd") == 0) {
+		else if (strcmp (cmd, "cd") == 0) {
 			chdir ("/home");
 			set_prompt ();
-			continue;
 		}
-		if (strstr (cmd, "PS1") != NULL) {
+		else if (strstr (cmd, "PS1") != NULL) {
 			change_prompt ();
 			continue;
 		}
-		pid = fork ();
-		if (pid == 0) {
-			if (handle_spaces() == 0) {
-				int ret = execl (cmd, cmd, NULL);
-			        if (ret == -1) {
-                			char start[10];
-					strcpy (start, PATH);
-                			strcat (start, cmd);
-                			int try = execl (start, start, NULL);
-                			if (try == -1) {
-                        			printf ("%s: command not found\n", cmd);
-                			}
-        			}
+		else {
+			pid = fork ();
+			if (pid == 0) {
+				if (handle_spaces() == 0) {
+					int ret = execl (cmd, cmd, NULL);
+			        	if (ret == -1) {
+                				char start[10];
+						strcpy (start, PATH);
+                				strcat (start, cmd);
+                				int try = execl (start, start, NULL);
+                				if (try == -1) {
+                        				printf ("%s: command not found\n", cmd);
+                				}
+        				}
 
+				}	
+				else {
+					process_multiple ();
+				}
 			}
 			else {
-				process_multiple ();
+				wait (NULL);
 			}
 		}
-		else {
-			wait (NULL);
-		}
-		
 	}
 }
-
