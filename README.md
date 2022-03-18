@@ -16,6 +16,16 @@ A Linux Terminal written in C
 - Takes 1 step more to start working normally after using the PS1 command.
 - Only known to work on Linux.
 
+# Clone the repository:
+```
+git clone https://github.com/anshul-kulkarni/Shell.git
+```
+
+# Move to the folder:
+```
+cd Shell
+```
+
 # Compile the code:
 ```
 gcc shell.c -lreadline
