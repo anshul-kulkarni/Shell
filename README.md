@@ -1,6 +1,6 @@
 # Shell
 
-A Linux Terminal written in C
+A Linux Terminal written in C.
 
 # Features:
 
