@@ -4,6 +4,7 @@ A Linux Terminal written in C
 
 # Features:
 
+- Supports history of previous commands executed and can access them using up-down arrow keys.
 - Can support multiple as well as single arguments.
 - PATH being handled.
 - Can exit by pressing Control+D or typing exit.
@@ -15,11 +16,11 @@ A Linux Terminal written in C
 - Takes 1 step more to start working normally after using the PS1 command.
 - Only known to work on Linux.
 
-Compile the code:
+# Compile the code:
 ```
 gcc shell.c -lreadline
 ```
-Run the code:
+# Run the code:
 ```
 ./a.out
 ```
