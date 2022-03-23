@@ -31,6 +31,7 @@ void handle_input () {
 	char *input = NULL;
         input = readline("");
 	if (input == NULL) {
+		printf ("Goodbye\n");
 		exit (1);
 	}
 	if (strcmp (input, "exit") == 0) {
@@ -84,6 +85,19 @@ int check_prompt () {
 	return 0;
 }
 
+void process_single () {
+	int ret = execl (cmd, cmd, NULL);
+        if (ret == -1) {
+        	char start[10];
+                strcpy (start, PATH);
+                strcat (start, cmd);
+                int try = execl (start, start, NULL);
+                if (try == -1) {
+                	perror ("error");
+               	}
+       }
+}
+
 void process_multiple () {
 	if (strcmp (temp[0], "cd") == 0) {
 		char *t;
@@ -104,7 +118,7 @@ void process_multiple () {
 		ptr[i] = temp[i];
 	}
 	if (execv (c, ptr) == -1) {
-		printf ("command not found");
+		perror ("error");
 	}
 }
 
@@ -127,17 +141,7 @@ int main () {
 			pid = fork ();
 			if (pid == 0) {
 				if (handle_spaces() == 0) {
-					int ret = execl (cmd, cmd, NULL);
-			        	if (ret == -1) {
-                				char start[10];
-						strcpy (start, PATH);
-                				strcat (start, cmd);
-                				int try = execl (start, start, NULL);
-                				if (try == -1) {
-                        				printf ("%s: command not found\n", cmd);
-                				}
-        				}
-
+					process_single ();
 				}	
 				else {
 					process_multiple ();
