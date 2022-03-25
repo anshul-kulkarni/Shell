@@ -86,16 +86,16 @@ int check_prompt () {
 }
 
 void process_single () {
-	int ret = execl (cmd, cmd, NULL);
-        if (ret == -1) {
-        	char start[10];
-                strcpy (start, PATH);
-                strcat (start, cmd);
-                int try = execl (start, start, NULL);
-                if (try == -1) {
-                	perror ("error");
-               	}
-       }
+	char *ptr[] = {cmd, NULL};
+	if (execv (cmd, ptr) == -1) {
+		char c[MAX];
+		strcpy (c, PATH);
+		strcat (c, cmd);
+		ptr[0] = c;
+		if (execv (c, ptr) == -1) {
+			perror ("error");
+		}
+	}
 }
 
 void process_multiple () {
@@ -110,15 +110,18 @@ void process_multiple () {
 		}
 		return;
 	}
-	char c[MAX];
-	strcpy (c, PATH);
-	strcat (c, temp[0]);
-	char *ptr[] = {c, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+	char *ptr[] = {temp[0], NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};	
 	for (int i = 1; i < count; i++) {
 		ptr[i] = temp[i];
 	}
-	if (execv (c, ptr) == -1) {
-		perror ("error");
+	if (execv (temp[0], ptr) == -1) {
+		char c[MAX];
+		strcpy (c, PATH);
+		strcat (c, temp[0]);
+		ptr[0] = c;
+		if (execv (c, ptr) == -1) {
+			perror ("error");
+		}
 	}
 }
 
