@@ -20,10 +20,10 @@ int count;
 char buf[MAX];
 
 void set_prompt () {
-        getlogin_r(buf,10);
-        strcpy (input_print, buf);
-        strcat (input_print, ":~");
-        strcat (input_print, getcwd (cwd, sizeof (cwd)));
+    getlogin_r(buf,10);
+    strcpy (input_print, buf);
+    strcat (input_print, ":~");
+    strcat (input_print, getcwd (cwd, sizeof (cwd)));
 }
 
 void handle_input () {
@@ -44,12 +44,12 @@ void handle_input () {
 }
 
 void change_prompt () {
-         if (strstr (cmd, "PS1") != NULL) {
-                 char *t = strtok (cmd, "=");
-                 t = strtok (NULL, "=");
-                 strcpy (input_print, t);
-                 handle_input ();
-         }
+    if (strstr (cmd, "PS1") != NULL) {
+        char *t = strtok (cmd, "=");
+        t = strtok (NULL, "=");
+        strcpy (input_print, t);
+        handle_input ();
+    }
 }
 
 void set_path () {
