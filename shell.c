@@ -100,7 +100,6 @@ void process_single () {
 
 void process_multiple () {
 	if (strcmp (temp[0], "cd") == 0) {
-		char *t;
 		if (check_prompt () == 1) {
 			chdir (temp[1]);
 			set_prompt ();
@@ -110,7 +109,7 @@ void process_multiple () {
 		}
 		return;
 	}
-	char *ptr[] = {temp[0], NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};	
+	char *ptr[] = {temp[0], NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};	
 	for (int i = 1; i < count; i++) {
 		ptr[i] = temp[i];
 	}
