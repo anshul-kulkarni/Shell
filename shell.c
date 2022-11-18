@@ -100,12 +100,9 @@ void process_single () {
 
 void process_multiple () {
 	if (strcmp (temp[0], "cd") == 0) {
+		chdir (temp[1]);
 		if (check_prompt () == 1) {
-			chdir (temp[1]);
 			set_prompt ();
-		}
-		else {
-			chdir (temp[1]);	
 		}
 		return;
 	}
