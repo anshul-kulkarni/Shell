@@ -15,6 +15,7 @@ char temp[MAX][MAX];
 pid_t pid;
 int flag = -1;
 char PATH[MAX] = "/bin/";
+char *username;
 char input_print[MAX];
 int count;
 char buf[MAX];
@@ -122,6 +123,7 @@ void process_multiple () {
 }
 
 int main () {
+	username = getenv("USER");
 	set_prompt ();
 	while (1) {
 		handle_input ();
@@ -129,7 +131,10 @@ int main () {
 			set_path ();
 		}	
 		else if (strcmp (cmd, "cd") == 0) {
-			chdir ("/home");
+			char t[MAX];
+			strcpy(t, "/home/");
+			strcat(t, username);
+			chdir (t);
 			set_prompt ();
 		}
 		else if (strstr (cmd, "PS1") != NULL) {
