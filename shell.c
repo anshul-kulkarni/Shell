@@ -107,7 +107,7 @@ void process_multiple () {
 		}
 		return;
 	}
-	char *ptr[] = {temp[0], NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};	
+	char *ptr[] = {temp[0], NULL, NULL, NULL, NULL, NULL, NULL};	
 	for (int i = 1; i < count; i++) {
 		ptr[i] = temp[i];
 	}
