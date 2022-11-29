@@ -31,13 +31,9 @@ void handle_input () {
 	printf ("%s\n", input_print);
 	char *input = NULL;
         input = readline("");
-	if (input == NULL) {
+	if (input == NULL || strcmp (input, "exit") == 0) {
 		printf ("Goodbye\n");
 		exit (1);
-	}
-	if (strcmp (input, "exit") == 0) {
-		printf ("Goodbye\n");
-		exit (0);
 	}
 	add_history (input);
 	strcpy (cmd, input);
