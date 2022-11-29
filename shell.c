@@ -44,11 +44,25 @@ void handle_input () {
 	count = 0;
 }
 
+int helper (char *t) {
+	int sum = 0;
+	for (int i = 0; t[i] != '\0'; i++) {
+		int d = t[i];
+		sum += d;
+	}
+	return sum;
+}
+
 void change_prompt () {
     if (strstr (cmd, "PS1") != NULL) {
         char *t = strtok (cmd, "=");
         t = strtok (NULL, "=");
-        strcpy (input_print, t);
+	if (helper (t) == 315) {
+		strcpy (t, "~");
+		strcat (t, getcwd(cwd, sizeof(cwd)));
+		strcat (t, "$");
+	}
+       	strcpy (input_print, t);
     }
 }
 
