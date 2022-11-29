@@ -49,7 +49,6 @@ void change_prompt () {
         char *t = strtok (cmd, "=");
         t = strtok (NULL, "=");
         strcpy (input_print, t);
-        handle_input ();
     }
 }
 
@@ -139,7 +138,6 @@ int main () {
 		}
 		else if (strstr (cmd, "PS1") != NULL) {
 			change_prompt ();
-			continue;
 		}
 		else {
 			pid = fork ();
