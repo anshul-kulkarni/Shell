@@ -12,8 +12,6 @@ A Linux Terminal written in C.
 
 # Current issues:
 
-- Doesn't exit on time by typing 'exit' or pressing Control+D.
-- Takes 1 step more to start working normally after using the PS1 command.
 - Only known to work on Linux.
 
 # Clone the repository:
