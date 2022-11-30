@@ -10,7 +10,8 @@
 #include <sys/stat.h>
 #define MAX 128
 
-char cmd[MAX], cwd[MAX];
+char cmd[MAX];
+char cwd[MAX];
 char temp[MAX][MAX];
 pid_t pid;
 int flag = -1;
@@ -21,15 +22,15 @@ int count;
 char buf[MAX];
 
 void set_prompt () {
-    strcpy (input_print, username);
-    strcat (input_print, ":~");
-    strcat (input_print, getcwd (cwd, sizeof (cwd)));
+	strcpy (input_print, username);
+	strcat (input_print, ":~");
+	strcat (input_print, getcwd (cwd, sizeof (cwd)));
 }
 
 void handle_input () {
 	printf ("%s\n", input_print);
 	char *input = NULL;
-    input = readline("");
+	input = readline ("");
 	if (input == NULL || strcmp (input, "exit") == 0) {
 		printf ("Goodbye\n");
 		exit (1);
@@ -39,7 +40,7 @@ void handle_input () {
 	count = 0;
 }
 
-int helper (char *t) {
+int prompt_helper (char *t) {
 	int sum = 0;
 	for (int i = 0; t[i] != '\0'; i++) {
 		int d = t[i];
@@ -50,13 +51,13 @@ int helper (char *t) {
 
 void change_prompt () {
 	char *t = strtok (cmd, "=");
-    t = strtok (NULL, "=");
-	if (helper (t) == 315) {
-		strcpy (t, "~");
-		strcat (t, getcwd(cwd, sizeof(cwd)));
-		strcat (t, "$");
+	t = strtok (NULL, "=");
+	if (prompt_helper (t) == 315) {
+		set_prompt ();
 	}
-    strcpy (input_print, t);
+	else {
+		strcpy (input_print, t);
+	}
 }
 
 void set_path () {
@@ -73,10 +74,8 @@ int handle_spaces () {
 	if (t == NULL) {
 		return 0;
 	}
-	int i = 1;
-	while (t != NULL) {
+	for (int i = 1; t != NULL; i++) {
 		strcpy (temp[i], t);
-		i++;
 		count++;
 		t = strtok (NULL, " ");
 	}
@@ -101,19 +100,22 @@ void process_single () {
 		ptr[0] = c;
 		if (execv (c, ptr) == -1) {
 			perror ("error");
-		}
+		}	
 	}
 }
 
 void process_multiple () {
 	if (strcmp (temp[0], "cd") == 0) {
-		chdir (temp[1]);
 		if (check_prompt () == 1) {
+			chdir (temp[1]);
 			set_prompt ();
 		}
-		return;
+		else {
+			chdir (temp[1]);
+		}
+		return ;
 	}
-	char *ptr[] = {temp[0], NULL, NULL, NULL, NULL, NULL, NULL};	
+	char *ptr[] = {temp[0], NULL, NULL, NULL, NULL, NULL};
 	for (int i = 1; i < count; i++) {
 		ptr[i] = temp[i];
 	}
@@ -135,13 +137,13 @@ int main () {
 		handle_input ();
 		if (strstr (cmd, "PATH") != NULL) {
 			set_path ();
-		}	
+		}
 		else if (strcmp (cmd, "cd") == 0) {
-			char t[MAX];
-			strcpy(t, "/home/");
-			strcat(t, username);
-			chdir (t);
-			set_prompt ();
+			char cd[MAX];
+			strcpy (cd, "/home/");
+			strcat (cd, username);
+			chdir (cd);
+			set_prompt ();	
 		}
 		else if (strstr (cmd, "PS1") != NULL) {
 			change_prompt ();
@@ -149,9 +151,9 @@ int main () {
 		else {
 			pid = fork ();
 			if (pid == 0) {
-				if (handle_spaces() == 0) {
+				if (handle_spaces () == 0) {
 					process_single ();
-				}	
+				}
 				else {
 					process_multiple ();
 				}
