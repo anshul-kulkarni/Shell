@@ -21,8 +21,7 @@ int count;
 char buf[MAX];
 
 void set_prompt () {
-    getlogin_r(buf,10);
-    strcpy (input_print, buf);
+    strcpy (input_print, username);
     strcat (input_print, ":~");
     strcat (input_print, getcwd (cwd, sizeof (cwd)));
 }
@@ -30,7 +29,7 @@ void set_prompt () {
 void handle_input () {
 	printf ("%s\n", input_print);
 	char *input = NULL;
-        input = readline("");
+    input = readline("");
 	if (input == NULL || strcmp (input, "exit") == 0) {
 		printf ("Goodbye\n");
 		exit (1);
@@ -50,16 +49,14 @@ int helper (char *t) {
 }
 
 void change_prompt () {
-    if (strstr (cmd, "PS1") != NULL) {
-        char *t = strtok (cmd, "=");
-        t = strtok (NULL, "=");
+	char *t = strtok (cmd, "=");
+    t = strtok (NULL, "=");
 	if (helper (t) == 315) {
 		strcpy (t, "~");
 		strcat (t, getcwd(cwd, sizeof(cwd)));
 		strcat (t, "$");
 	}
-       	strcpy (input_print, t);
-    }
+    strcpy (input_print, t);
 }
 
 void set_path () {
