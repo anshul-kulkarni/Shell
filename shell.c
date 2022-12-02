@@ -14,12 +14,10 @@ char cmd[MAX];
 char cwd[MAX];
 char temp[MAX][MAX];
 pid_t pid;
-int flag = -1;
 char PATH[MAX] = "/bin/";
 char *username;
 char input_print[MAX];
 int count;
-char buf[MAX];
 
 void set_prompt () {
 	strcpy (input_print, username);
