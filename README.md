@@ -13,7 +13,7 @@ A Linux Terminal written in C.
 # Current issues:
 
 - Only known to work on Linux.
-- Doesn't exit on time sometimes.
+- It doesn't exit on time sometimes.
 
 # Clone the repository:
 ```
